@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In</title>
+    <link rel="stylesheet" href="{% static 'store/style.css' %}">
+</head>
+<body>
+
+    <div class="container" style="max-width: 450px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <h2 style="text-align: center; margin-bottom: 0.5rem; color: #0f172a;">Welcome Back</h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 1.5rem;">Log in to access your feed</p>
+
+        {% if error_message %}
+            <div style="background-color: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 10px; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem;">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        <form action="{% url 'social_login' %}" method="POST">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 1.25rem;">
+                <label style="display: block; margin-bottom: 0.4rem; font-weight: 500;">Username:</label>
+                <input type="text" name="username" required class="form-control" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <label style="display: block; margin-bottom: 0.4rem; font-weight: 500;">Password:</label>
+                <input type="password" name="password" required class="form-control" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; border-radius: 6px; background: #2563eb; color: #fff; border: none; font-weight: 600; cursor: pointer; margin-top: 0.5rem;">
+                Log In
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; color: #64748b; font-size: 0.95rem;">
+            Don't have an account? <a href="{% url 'social_register' %}" style="color: #2563eb; text-decoration: none; font-weight: 500;">Register</a>
+        </p>
+    </div>
+
+</body>
+</html>

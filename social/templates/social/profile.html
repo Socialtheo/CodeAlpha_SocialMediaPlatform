@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ profile_user.username }}'s Profile</title>
+    <link rel="stylesheet" href="{% static 'social/style.css' %}">
+</head>
+<body>
+
+    <div class="container">
+        
+        <div style="margin-bottom: 1rem;">
+            <a href="{% url 'social_feed' %}">← Back to Feed</a>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <h2 style="font-size: 1.75rem; color: #0f172a; margin-bottom: 1rem;">@{{ profile_user.username }}</h2>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-value">{{ user_posts.count }}</span>
+                    <span class="stat-label">Posts</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ followers.count }}</span>
+                    <span class="stat-label">Followers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ profile.following.count }}</span>
+                    <span class="stat-label">Following</span>
+                </div>
+            </div>
+
+            {% if request.user != profile_user %}
+                <a href="{% url 'social_follow_user' profile_user.username %}" class="btn {% if is_following %}btn-secondary{% else %}btn-primary{% endif %}">
+                    {% if is_following %}Unfollow{% else %}Follow{% endif %}
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab-posts">Posts</button>
+            <button class="tab-btn" data-tab="tab-followers">Followers ({{ followers.count }})</button>
+        </div>
+
+        <div id="tab-posts" class="tab-content active">
+            {% for post in user_posts %}
+                <div class="card">
+                    <p style="font-size: 1rem; margin: 0 0 0.5rem 0;">{{ post.content }}</p>
+                    <span style="color: #64748b; font-size: 0.85rem;">{{ post.created_at|timesince }} ago</span>
+                </div>
+            {% empty %}
+                <p style="color: #64748b;">No posts published yet.</p>
+            {% endfor %}
+        </div>
+
+        <div id="tab-followers" class="tab-content">
+            <div class="card">
+                <h3>Followers</h3>
+                <div class="badge-list">
+                    {% for follower_profile in followers %}
+                        <a href="{% url 'social_profile' follower_profile.user.username %}" class="user-badge">
+                            @{{ follower_profile.user.username }}
+                        </a>
+                    {% empty %}
+                        <p style="color: #64748b; font-size: 0.9rem; margin: 0;">No followers yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{% static 'social/main.js' %}"></script>
+</body>
+</html>
