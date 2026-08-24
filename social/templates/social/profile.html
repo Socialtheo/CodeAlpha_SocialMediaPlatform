@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ profile_user.username }}'s Profile</title>
-    <link rel="stylesheet" href="{% static 'social/style.css' %}">
+    <link rel="stylesheet" href="{% static 'social/style.css' %}?v=2">
 </head>
 <body>
 
     <div class="container">
-        
+
         <div style="margin-bottom: 1rem;">
             <a href="{% url 'social_feed' %}">← Back to Feed</a>
         </div>
 
         <div class="card" style="text-align: center;">
             <h2 style="font-size: 1.75rem; color: #0f172a; margin-bottom: 1rem;">@{{ profile_user.username }}</h2>
-            
+
             <div class="stats-bar">
                 <div class="stat-item">
                     <span class="stat-value">{{ user_posts.count }}</span>
@@ -49,6 +49,16 @@
                 <div class="card">
                     <p style="font-size: 1rem; margin: 0 0 0.5rem 0;">{{ post.content }}</p>
                     <span style="color: #64748b; font-size: 0.85rem;">{{ post.created_at|timesince }} ago</span>
+
+
+                    {% if request.user == profile_user or request.user == post.author %}
+                        <form action="{% url 'delete_post' post.id %}" method="POST" style="display:inline; margin-left: 10px;">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this post?');" style="color: red; border: none; background: none; cursor: pointer; font-size: 0.85rem;">
+                                Delete
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
             {% empty %}
                 <p style="color: #64748b;">No posts published yet.</p>
