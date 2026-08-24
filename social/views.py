@@ -9,7 +9,7 @@ from .forms import PostForm
 @login_required(login_url='social_login')
 def feed_view(request):
     posts = Post.objects.all().order_by('-created_at')
-    
+
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -42,14 +42,31 @@ def add_comment(request, post_id):
             Comment.objects.create(post=post, author=request.user, content=content)
     return redirect('social_feed')
 
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    # Ensure only the comment author (or post author) can delete it
+    if comment.author == request.user or comment.post.author == request.user:
+        comment.delete()
+
+    return redirect(request.META.get('HTTP_REFERER', 'social_feed'))
+
+@login_required(login_url='social_login')
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.user == post.author:
+        post.delete()
+    return redirect(request.META.get('HTTP_REFERER', 'social_feed'))
+
 @login_required(login_url='social_login')
 def profile_view(request, username):
     profile_user = get_object_or_404(User, username=username)
     profile, _ = Profile.objects.get_or_create(user=profile_user)
     user_posts = Post.objects.filter(author=profile_user).order_by('-created_at')
-    
+
     follower_profiles = Profile.objects.filter(following=profile_user)
-    
+
     user_profile, _ = Profile.objects.get_or_create(user=request.user)
     is_following = user_profile.following.filter(id=profile_user.id).exists()
 
@@ -65,13 +82,13 @@ def profile_view(request, username):
 def follow_user(request, username):
     target_user = get_object_or_404(User, username=username)
     user_profile, _ = Profile.objects.get_or_create(user=request.user)
-    
+
     if target_user != request.user:
         if user_profile.following.filter(id=target_user.id).exists():
             user_profile.following.remove(target_user)
         else:
             user_profile.following.add(target_user)
-            
+
     return redirect('social_profile', username=username)
 
 # Registration View
