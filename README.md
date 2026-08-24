@@ -45,7 +45,7 @@ Deployment
 
 📂 Project Structure
 
-```
+```text
 CodeAlpha_SocialMediaPlatform
 ├── social/
 │   ├── migrations/
@@ -67,7 +67,6 @@ CodeAlpha_SocialMediaPlatform
 ├── manage.py
 ├── db.sqlite3
 └── README.md
-```
 ---
 
 🎯 Internship Task
