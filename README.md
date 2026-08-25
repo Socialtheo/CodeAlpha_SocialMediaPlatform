@@ -1,6 +1,6 @@
-🌐 CodeAlpha Mini Social Media Platform
+🌐 Mini Social Media Platform
 
-A full-stack Mini Social Media application developed as part of the CodeAlpha Full Stack Development Internship.
+A full-stack Mini Social Media application.
 
 🚀 Live Demo
 https://Socialtheo.pythonanywhere.com
