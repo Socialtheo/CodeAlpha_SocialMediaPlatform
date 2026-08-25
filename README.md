@@ -46,7 +46,7 @@ Deployment
 📂 Project Structure
 
 ```text
-CodeAlpha_SocialMediaPlatform
+SocialMediaPlatform
 ├── social/
 │   ├── migrations/
 │   ├── static/
