@@ -6,7 +6,7 @@ A full-stack Mini Social Media application developed as part of the CodeAlpha Fu
 https://Socialtheo.pythonanywhere.com
 
 GitHub Repository
-https://github.com/Socialtheo/CodeAlpha_SocialMediaPlatform
+https://github.com/Socialtheo/SocialMediaPlatform
 
 ---
 
@@ -68,19 +68,5 @@ CodeAlpha_SocialMediaPlatform
 ├── db.sqlite3
 └── README.md
 ```
----
-
-🎯 Internship Task
-
-CodeAlpha Full Stack Development Internship
-
-Task 2: Social Media Platform
-
-Requirements Completed:
-* User Profiles
-* Post Feed & Creation
-* Like System
-* Comment System & Deletion
-* User Authentication
 * Django Backend Integration
 * Custom Styling & Dark Theme
